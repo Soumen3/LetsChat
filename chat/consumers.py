@@ -1,6 +1,9 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import ChatModel
+from .models import ChatModel,UserProfileModel
+from django.contrib.auth.models import User
+import json
+
 
 class PersonalChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
@@ -57,3 +60,48 @@ class PersonalChatConsumer(AsyncJsonWebsocketConsumer):
             self.channel_name
         )
         print('disconnected')
+
+
+
+class OnlineStatusConsumer(AsyncJsonWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name='user'
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        
+        await self.accept()
+
+    async def receive_json(self, content, **kwargs):
+        username=content['username']
+        connection_type=content['type']
+        print(username)
+        print(connection_type)
+        await self.change_online_status(username, connection_type)
+
+    async def send_onlineStatus(self, event):
+        data=json.loads(event.get('value'))
+        username=data['username']
+        online_status=data['status']
+        await self.send_json({
+            'username':username,
+            'online_status':online_status,
+        })
+        
+    async def disconnect(self, message):
+        self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    @database_sync_to_async
+    def change_online_status(self,username, c_type):
+        user=User.objects.get(username=username)
+        userprofile=UserProfileModel.objects.get(user=user)
+
+        if c_type == 'open':
+            userprofile.online_status=True
+        else:
+            userprofile.online_status=False
+        userprofile.save()
