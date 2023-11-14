@@ -53,10 +53,14 @@ document.querySelector("#chat-message-submit").onclick = function (e) {
     const message_input = document.querySelector("#message_input");
     const message = message_input.value;
     // const receiver = document.getElementById('json-username-receiver').textContent;
-
-    socket.send(JSON.stringify({
-        'message': message,
-        'username': message_username,
-    }));
-    message_input.value = '';
+    if (message != ''){
+        socket.send(JSON.stringify({
+            'message': message,
+            'username': message_username,
+        }));
+        message_input.value = '';
+    }
+    else{
+        alert("Please enter a valid message")
+    }
 }
