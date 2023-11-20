@@ -20,47 +20,72 @@ socket.onerror = function (e) {
 }
 socket.onmessage = function (e) {
     console.log(e);
-    const data = JSON.parse(e.data); 
+    const data = JSON.parse(e.data);
     console.log(data);
 
-    if (data.username ==message_username){
+    if (data.username == message_username) {
         document.querySelector('#chat-body').innerHTML += `
         <tr>
-        <td>
-            <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
-                ${data.message}
-            </p>
-        </td>
+            <td>
+                <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
+                    ${data.message} <br>
+                    <small class="p-1  time-stamp">${data.timestamp}</small>
+                </p>
+            </td>
+                               
         </tr>`
     }
-    else{
+    else {
         document.querySelector('#chat-body').innerHTML += `
         <tr>
-        <td>
-            <p class="bg-primary p-2 mt-2 ml-5 shadow-sm text-white float-left rounded">
-                ${data.message}
-            </p>
-        </td>
+            <td>
+                <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
+                    ${data.message} <br>
+                    <small class="p-1  time-stamp">${data.timestamp}</small>
+                </p>
+            </td>                                
         </tr>`
     }
 
 }
 
-
-document.querySelector("#chat-message-submit").onclick = function (e) {
+function send_messagge(e) {
     console.log('button click');
 
     const message_input = document.querySelector("#message_input");
     const message = message_input.value;
     // const receiver = document.getElementById('json-username-receiver').textContent;
-    if (message != ''){
+    if (message != '') {
+        var currentTime = new Date();
+        var options = { hour12: true };
+        var timeString = currentTime.toLocaleTimeString([], options);
         socket.send(JSON.stringify({
             'message': message,
             'username': message_username,
+            'timeStamp': timeString,
+
         }));
         message_input.value = '';
+        // var chatWindow = document.getElementById("chat-window");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-    else{
+    else {
         alert("Please enter a valid message")
     }
 }
+
+document.querySelector("#chat-message-submit").onclick = send_messagge
+
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+      // Call your function here
+      send_messagge();
+    }
+  });
+  
+
+
+
+var chatWindow = document.getElementById("chat-window");
+chatWindow.scrollTop = chatWindow.scrollHeight;

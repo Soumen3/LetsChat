@@ -26,6 +26,7 @@ class PersonalChatConsumer(AsyncJsonWebsocketConsumer):
     async def receive_json(self, content, **kwargs):
         message =content['message']
         username=content['username']
+        timestamp=content['timeStamp']
         print(username)
         print('receive',message)
 
@@ -36,15 +37,18 @@ class PersonalChatConsumer(AsyncJsonWebsocketConsumer):
                 'type':'chat_message',
                 'message':message,
                 'username':username,
+                'timestamp':timestamp
             }
         )
     async def chat_message(self, event):
         message=event['message']
         username=event['username']
+        timestamp=event['timestamp']
 
         await self.send_json({
             'message':message,
             'username':username,
+            'timestamp':timestamp
         })
 
     @database_sync_to_async

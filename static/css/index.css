@@ -21,12 +21,13 @@
   .front-container1 {
     position: absolute;
     top: 20px;
-    left: 0;
+    left: 2rem;
     right: 0;
+    width: 60rem;
   }
   
   .chat-top {
-    background-color: #ededed;
+    /* background-color: #ededed; */
     min-height: 50px;
   }
   
@@ -59,3 +60,57 @@
   .message-box {
     background-color: #f0f0f0;
   }
+
+  .time-stamp{
+    color: #bebbbb;
+    display: flex;
+    flex-direction: row-reverse;
+    line-height: 2px;
+  }
+
+  .top-left-profile {
+    display: flex;
+    flex-direction: column;
+    max-height: fit-content;
+    padding: .5rem;
+    background-color: #ededed;
+}
+
+.logout-btn{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+tr.users{
+    align-content: center;
+    justify-self: center;
+}
+
+.table td, .table th {
+    padding: 0.75rem;
+    vertical-align:middle;
+    border-top: 1px solid #dee2e6;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color:transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+
+
