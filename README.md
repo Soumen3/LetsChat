@@ -10,12 +10,12 @@ To run the program, you need to have Python and Django installed on your compute
 
 1. Create a virtual environment using virtualenv or venv.
       <small>virtualenv venv</small>
-3. Activate the virtual environment.
+3. Activate the virtual environment.<br>
      <small>.\venv\Scripts\activate</small>
-4. Install the required packages using the req.txt file.
+4. Install the required packages using the req.txt file.<br>
       <small> pip install -r req.txt</small>
 6. Install the Redis channel layer in your pc.
-7. Run the command python manage.py runserver.
+7. Run the command python manage.py runserver.<br>
        <small> python manage.py runserver</small>
 
 That's it! You should now be able to access the website and start chatting with your friends.
