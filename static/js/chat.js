@@ -8,16 +8,15 @@ const socket = new WebSocket('ws://' + window.location.host + '/ws/' + id + '/')
 
 socket.onopen = function (e) {
     console.log("Connection Established", e);
-
 }
+
 socket.onclose = function (e) {
     console.log("Connection lost");
-
 }
 socket.onerror = function (e) {
     console.log(e);
-
 }
+
 socket.onmessage = function (e) {
     console.log(e);
     const data = JSON.parse(e.data);
